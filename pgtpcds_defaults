@@ -1,0 +1,140 @@
+#!/bin/bash
+
+########## REQUIRED CHANGES ##########
+SCALE=1 #GB
+PGUSER="guest"
+DB_NAME="tpcds1gb"
+TPCDSTMP=/home/guest/bsc/databases/tpcds_tmp
+PGDATADIR=/home/guest/bsc/databases/pgdata${SCALE}GB
+PGBINDIR=/home/guest/bsc/postgres-compiled/bin ## Postgres Binaries Source Directory
+TPCDSDIR=/home/guest/bsc/DSGen-software-code-3.2.0rc1 ## TPC-DS Source Directory
+Q0DIR=/home/guest/denegenyeni/tmpq0 ## query_0.sql and .dat's directory
+
+data_loading_configuration="
+#checkpoint_segments = 300
+checkpoint_timeout = 3600s
+checkpoint_completion_target = 0.9
+shared_buffers = 4GB
+maintenance_work_mem = 1GB
+"
+
+logging_configuration="
+log_destination = 'stderr'
+logging_collector = on
+log_directory = 'pg_log'
+log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+log_file_mode = 0600
+client_min_messages = notice
+log_min_messages = warning
+log_min_error_statement = error
+log_statement = 'all'
+log_timezone = 'Europe/Madrid'
+"
+
+query_configuration="
+checkpoint_timeout = 600s
+work_mem = 12GB                      #2 to 16GB
+effective_cache_size = 192GB        #3/4 of total RAM (192GB)
+default_statistics_target = 5000    #requires analyze to take effect
+"
+#maintenance_work_mem = 32MB
+########## END OF REQUIRED CHANGES ##########
+
+BASEDIR=$(dirname "$0")
+BASEDIR=$(cd "$BASEDIR"; pwd)
+PGPORT=5432
+REMAKE_DATA=true
+POPULATE_DB=true
+CREATE_MIN_INDEXES=false
+CREATE_ALL_INDEXES=true
+PERFDATADIR=perfdata
+CORES=`grep -c ^processor /proc/cpuinfo`
+LOGGING=false
+
+# Install teardown() function to kill any lingering jobs
+teardown() {
+  echo "Cleaning up before exiting"
+  sudo -u $PGUSER $PGBINDIR/pg_ctl stop -m fast -D "$PGDATADIR" 2>/dev/null && sleep 1
+  JOBS=$(jobs -p)
+  test -z "$JOBS" || { kill $JOBS && sleep 2; }
+  JOBS=$(jobs -p)
+  test -z "$JOBS" || kill -9 $JOBS
+}
+test -z "${DEBUG-}" && trap "teardown" EXIT
+
+# Set up perf
+perf_set_kernel_params() {
+  if [ -r /proc/sys/kernel/kptr_restrict ] && [ $(cat /proc/sys/kernel/kptr_restrict) -ne 0 ]; then
+    echo "Perf requires reading kernel symbols."
+    echo 0 | sudo tee /proc/sys/kernel/kptr_restrict
+  fi
+  if [ -r /proc/sys/kernel/perf_event_paranoid ] && [ $(cat /proc/sys/kernel/perf_event_paranoid) -ne -1 ]; then
+    echo "Need to enable the reading of performance events."
+    echo -1 | sudo tee /proc/sys/kernel/perf_event_paranoid
+  fi
+  if [ -r /proc/sys/kernel/perf_event_mlock_kb ] && [ $(cat /proc/sys/kernel/perf_event_mlock_kb) -lt 1024 ]; then
+    echo "Need to give more memory to perf."
+    echo 1024 | sudo tee /proc/sys/kernel/perf_event_mlock_kb
+  fi
+}
+
+# Restart and drop caches
+restart_drop_caches() {
+    echo "Restart postgres and drop caches."
+    sudo -u $PGUSER $PGBINDIR/pg_ctl stop -D $PGDATADIR
+    sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
+    sudo -u $PGUSER taskset -c 2 $PGBINDIR/postgres -D "$PGDATADIR" -p $PGPORT &
+    PGPID=$!
+    while ! sudo -u $PGUSER $PGBINDIR/pg_ctl status -D $PGDATADIR | grep "server is running" -q; do
+        echo "Waiting for the Postgres server to start"
+        sleep 3
+    done
+}
+
+# Calculates elapsed time
+timer() {
+    if [[ $# -eq 0 ]]; then
+        echo $(date '+%s')
+    else
+        local  stime=$1
+        etime=$(date '+%s')
+
+        if [[ -z "$stime" ]]; then stime=$etime; fi
+
+        dt=$((etime - stime))
+        ds=$((dt % 60))
+        dm=$(((dt / 60) % 60))
+        dh=$((dt / 3600))
+        printf '%d:%02d:%02d' $dh $dm $ds
+    fi
+}
+
+# To perform checks
+die() {
+  echo "$@"
+  exit -1;
+}
+
+# Check for the running Postgres; exit if there is any on the given port
+PGPORT_PROCLIST="$(lsof -i tcp:$PGPORT | tail -n +2 | awk '{print $2}')"
+if [[ $(echo "$PGPORT_PROCLIST" | wc -w) -gt 0 ]];
+then
+  echo "The following processes have taken port $PGPORT"
+  echo "Please terminate them before running this script"
+  echo
+  for p in $PGPORT_PROCLIST;
+  do
+    ps -o pid,cmd $p
+  done
+  exit -1
+fi
+
+# Check if a Postgres server is running in the same directory
+if sudo -u $PGUSER $PGBINDIR/pg_ctl status -D $PGDATADIR | grep "server is running" -q; then
+  echo "A Postgres server is already running in the selected directory. Exiting."
+  sudo -u $PGUSER $PGBINDIR/pg_ctl status -D $PGDATADIR
+  exit -2
+fi
+
+cd "$BASEDIR"
+
