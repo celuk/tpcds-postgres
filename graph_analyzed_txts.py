@@ -1,5 +1,40 @@
+## This script traverse on the analyzed texts of queries and makes stacked bar chart from them.
+
+## Below commands are executing on the texts and then it extracts info from them
+
+# cat /home/guest/bsc/tpcds_queries/analyzing_txts/q23.txt | plan-exporter --target=depesz --auto-confirm
+# echo $(wget https://explain.depesz.com/s/iPQ9#stats -q -O -)
+
+######### REQUIRED INSTALLATIONS #########
+
+## Before running you need to install plan-exporter tool like this:
+
+# wget https://github.com/agneum/plan-exporter/releases/download/v0.0.5/plan-exporter-0.0.5-linux-amd64.tar.gz
+# tar -zxvf plan-exporter-0.0.5-linux-amd64.tar.gz
+# sudo mv plan-exporter-*/plan-exporter /usr/local/bin/
+# rm -rf ./plan-exporter-*
+
+## If cannot find the python modules:
+
+# pip3 install matplotlib
+# pip3 install BeautifulSoup4
+# pip3 install numpy
+# pip3 install pprint
+
+##### END OF REQUIRED INSTALLATIONS #####
+
+######### REQUIRED CHANGES #########
+
+## Analyzed txts path
+## Change this path
+atxts_path = '/home/guest/txts/server/1gb4shared/actxts/' #'/home/guest/txts/dell/1gb/atxtsindexed/' #'/home/guest/denegenyeni/tmpq0/atxts/' #'/home/guest/denegenyeni/tmpq0/atxts/' #'/home/guest/bsc/tpcds_10gb/atxts10gb/' #'/home/guest/bsc/tpcds_queries/analyzing_txts/'
+
+## Also change these, if you need
+txt_pfx = 'q' ## e.g. q23.txt, prefix of text before the query number
+txt_sfx = 'a.txt' ## suffix after the query number
+
 ## Saved tables path
-tabletxts_path = '/home/guest/tables1gb/'
+tabletxts_path = '/home/guest/tables1gb2/'
 
 tabletxt_pfx = 'qatable'
 tabletxt_sfx = '.txt'
@@ -8,10 +43,18 @@ tabletxt_sfx = '.txt'
 maxnumofqueries = 99
 numofqueries = maxnumofqueries
 
-plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 10GB'
-pdf_name = 'tpcds10gb2'
+plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 1GB'
+pdf_name = 'tpcds1gb'
+
+planexportertool_path = ''
 
 ##### END OF REQUIRED CHANGES #####
+
+import os
+
+## Create if the directory does not exist
+if not os.path.exists(tabletxts_path):
+    os.mkdir(tabletxts_path)
 
 import subprocess
 import re
@@ -28,6 +71,7 @@ query_list = []
 # python3 allinonce.py --hlfunc="Sort"
 ## to highlight desired function in the bar chart
 parser = argparse.ArgumentParser(description='Create Configuration')
+parser.add_argument('-dz', '--depesz', action='store_true', help='Firstly upload to depesz analyzed txts', default=False)
 parser.add_argument('-hf', '--hlfunc', type=str, help='Specify function to highlight it', default='')
 parser.add_argument('-ql', '--querylist', type=str, help='Specify query list for special graphs', default='')
 parser.add_argument('-p', '--part', type=str, help='Specify a part (1-10) to make a smaller part of queries graph', default='')
@@ -53,7 +97,7 @@ if len(query_list) > 0 and len(query_list) < maxnumofqueries+1:
 ## If you want to remove a function removing from function list is sufficient, it will remove extra colors
 ## However, if you want to match colors and functions one-to-one, you need to add colors to colors list as you added functions to functions list
 ## Always, just leave 'Other' as last element
-functions = ['Other'] #['Parallel Hash Join', 'Sort', 'Index Scan', 'Index Only Scan', 'Parallel Seq Scan', 'Gather', 'Gather Merge', 'Bitmap Heap Scan', 'CTE Scan', 'Partial HashAggregate', 'Seq Scan', 'HashAggregate', 'Finalize GroupAggregate', 'MixedAggregate', 'Hash Join', 'Other']
+functions = ['Parallel Hash Join', 'Sort', 'Index Scan', 'Index Only Scan', 'Parallel Seq Scan', 'Gather', 'Gather Merge', 'Bitmap Heap Scan', 'CTE Scan', 'Partial HashAggregate', 'Seq Scan', 'HashAggregate', 'Finalize GroupAggregate', 'MixedAggregate', 'Hash Join', 'Other'] #['Other'] #['Parallel Hash Join', 'Sort', 'Index Scan', 'Index Only Scan', 'Parallel Seq Scan', 'Gather', 'Gather Merge', 'Bitmap Heap Scan', 'CTE Scan', 'Partial HashAggregate', 'Seq Scan', 'HashAggregate', 'Finalize GroupAggregate', 'MixedAggregate', 'Hash Join', 'Other']
 
 colors=['blue', 'green', 'red', '#F5DEB3', 'cyan', 'magenta', 'yellow', '#800000', '#FF8C00', '#00FF7F', '#4682B4', '#800080', '#8B4513', '#696969', '#808000', 'black']
 
@@ -78,10 +122,46 @@ dont_order = False
 
 for count in range(1, numofqueries+1):
     try:
+        query_number = query_list[count-1] if numofqueries != maxnumofqueries else count
+    
         max_prcnt = 0
         name_of_max = ''
         
-        table_txt = open(tabletxts_path + tabletxt_pfx + (query_list[count-1] if numofqueries != maxnumofqueries else count).__str__() + tabletxt_sfx, 'r')
+        if args.depesz:
+            table_txt = open(tabletxts_path + tabletxt_pfx + query_number.__str__() + tabletxt_sfx, 'w')
+            ## Uploads each analyzed text to explain.depesz.com
+            upload_to_depesz = subprocess.getoutput("cat " + atxts_path + txt_pfx + query_number.__str__() + txt_sfx + " | " + planexportertool_path + "plan-exporter --target=depesz --auto-confirm")
+    
+            ## Saves given url after uploading
+            url = re.search('URL: (.*)', upload_to_depesz).group(1)
+            url = url + '#stats'
+        
+            ## Getting the xml source of the page from given url
+            get_depesz_source = subprocess.getoutput("echo $(wget " + url + " -q -O -)")
+        
+            ## Regexing the xml to find desired table in the page
+            xml = re.sub(r"\b(Per node type stats.*?)\b\btable", r"\1table2", get_depesz_source)
+            xml = re.sub(r"\b(Per node type stats.*?)\b\btable\>", r"\1table2>", xml)
+    
+            ## Parsing xml and getting the rows of the table
+            parse_xml = bs(xml, 'lxml')
+            find_table = parse_xml.find('table2')
+            table_rows = find_table.find_all('tr')
+        
+            ## Traversing on the table's rows and columns and save them to the lists
+            for i in table_rows[1:]:
+                table_data = i.find_all('td')
+                data = [j.text for j in table_data]
+                table_txt.write(data[0] + '|' + data[1] + '|' + data[2] + '|' + data[3] + '\n')
+                table_txt.flush()
+            
+            table_txt.close()
+            
+            ## Prints depesz url, the most consumer functions and the percentages for each query
+            ## Keep in mind that max percentages are not normalized while printing, they are normalizing in the bar chart
+            print(txt_pfx + query_number.__str__() + txt_sfx + ' --> ' + url)
+        
+        table_txt = open(tabletxts_path + tabletxt_pfx + query_number.__str__() + tabletxt_sfx, 'r')
         
         for each_row in table_txt:
             data = each_row.split('|')
@@ -254,7 +334,7 @@ else:
     for each_func in functions:
         patch_list.append(mpatches.Patch(label=each_func.replace(' ', '\n'), color=colors[i]))
         i += 1
-plt.legend(handles=patch_list, fontsize=26, loc=(0.96, 0))
+plt.legend(handles=patch_list, fontsize=22, loc=(0.96, 0))
 
 #plt.rc('font', size=20)          # controls default text sizes
 #plt.rc('axes', titlesize=20)     # fontsize of the axes title
@@ -273,9 +353,11 @@ figure.set_size_inches(32,18)
 ## Save the plot to pdf
 if highlight:
     plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', dpi=300)
+    plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.png', dpi=300)
 else:
     plt.savefig(pdf_name + '.pdf', dpi=300)
+    plt.savefig(pdf_name + '.png', dpi=300)
     
 ## Show the plot
-plt.show()
+#plt.show()
 
