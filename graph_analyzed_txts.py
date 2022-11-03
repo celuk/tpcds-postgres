@@ -30,12 +30,21 @@ query_list = []
 parser = argparse.ArgumentParser(description='Create Configuration')
 parser.add_argument('-hf', '--hlfunc', type=str, help='Specify function to highlight it', default='')
 parser.add_argument('-ql', '--querylist', type=str, help='Specify query list for special graphs', default='')
+parser.add_argument('-p', '--part', type=str, help='Specify a part (1-10) to make a smaller part of queries graph', default='')
 args = parser.parse_args()
 
 if ''.join(args.querylist.split()) != '':    
     query_list = [each_number.strip() for each_number in args.querylist.split(',')]
     query_list[:] = [int(x) for x in query_list if x.strip()]
     
+which_part = 1
+if args.part != '':  
+    if int(args.part) <= 10 and int(args.part) >= 1:
+        which_part = int(args.part)
+
+    if args.querylist == '':
+        query_list = list(range(10*(which_part-1)+1, 10*(which_part-1)+ 11 if which_part != 10 else 10))
+
 if len(query_list) > 0 and len(query_list) < maxnumofqueries+1:
     numofqueries = len(query_list)
 
