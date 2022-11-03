@@ -2,8 +2,8 @@
 
 PGBINDIR=/home/guest/bsc/postgres-compiled/bin
 DBNAME=tpcds1gb
-QLOC=/home/guest/bsc/tpcds_queries/acqueries
-TXTLOC=/home/guest/bsc/tpcds_queries/actxts
+QLOC=/home/guest/denegenyeni/tmpq0/acqueries
+TXTLOC=/home/guest/denegenyeni/tmpq0/atxtsindexed
 
 mkdir -p $TXTLOC
 
@@ -15,7 +15,7 @@ count=$(($count+1))
 
 echo $QLOC/query${count}.sql
 
-$PGBINDIR/psql $DBNAME < $QLOC/query${count}.sql > $TXTLOC/q${count}a.txt
+sudo -u guest $PGBINDIR/psql $DBNAME < $QLOC/query${count}.sql > $TXTLOC/q${count}a.txt
 
 done
 
