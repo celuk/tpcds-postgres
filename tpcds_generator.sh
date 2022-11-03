@@ -1,5 +1,12 @@
 #!/bin/bash
 
+## TCP-DS Database Generation Script for Postgres
+
+## Before running this script you should do;
+## sudo apt-get install gcc make flex bison byacc git
+## then go to DSGen-software-code-3.2.0rc1/tools directory
+## and then make the tools: make OS=LINUX
+
 BASEDIR=$(dirname "$0")
 BASEDIR=$(cd "$BASEDIR"; pwd)
 . "$BASEDIR/pgtpcds_defaults"
