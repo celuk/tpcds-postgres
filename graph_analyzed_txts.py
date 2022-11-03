@@ -27,17 +27,23 @@
 
 ## Analyzed txts path
 ## Change this path
-atxts_path = '/home/guest/bsc/tpcds_queries/analyzing_txts/' #'/home/guest/bsc/tpcds_10gb/atxts10gb/' #'/home/guest/bsc/tpcds_queries/analyzing_txts/'
+atxts_path = '/home/guest/denegenyeni/tmpq010/ajooqtxts/' #'/home/guest/denegenyeni/tmpq0/atxts/' #'/home/guest/bsc/tpcds_10gb/atxts10gb/' #'/home/guest/bsc/tpcds_queries/analyzing_txts/'
 
 ## Also change these, if you need
 txt_pfx = 'q' ## e.g. q23.txt, prefix of text before the query number
 txt_sfx = 'a.txt' ## suffix after the query number
 
+## Save tables to this path
+tabletxts_path = '/home/guest/tables/'
+
+tabletxt_pfx = 'qatable'
+tabletxt_sfx = '.txt'
+
 ## If there is less query, then change this too
 numofqueries = 99
 
-plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 1GB'
-pdf_name = 'tpcds1gb'
+plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 10GB'
+pdf_name = 'tpcds10gb'
 
 ##### END OF REQUIRED CHANGES #####
 
@@ -49,6 +55,11 @@ import matplotlib.patches as mpatches
 import numpy as np
 import argparse
 import pprint
+import os
+
+## Create if the directory does not exist
+if not os.path.exists(tabletxts_path):
+    os.mkdir(tabletxts_path)
 
 ## You can use this command line argument e.g.:
 # python3 allinonce.py --hlfunc="Sort"
@@ -123,6 +134,8 @@ for count in range(1, numofqueries+1):
         max_prcnt = 0
         name_of_max = ''
     
+        table_txt = open(tabletxts_path + tabletxt_pfx + count.__str__() + tabletxt_sfx, 'w')
+        
         ## Traversing on the table's rows and columns and save them to the lists
         for i in table_rows[1:]:
             table_data = i.find_all('td')
@@ -138,6 +151,10 @@ for count in range(1, numofqueries+1):
                 max_prcnt = each_prcnt
                 name_of_max = data[0]
     
+            table_txt.write(data[0] + '|' + data[1] + '|' + data[2] + '|' + data[3] + '\n')
+            
+        table_txt.close()
+        
         ## Prints depesz url, the most consumer functions and the percentages for each query
         ## Keep in mind that max percentages are not normalized while printing, they are normalizing in the bar chart
         print(txt_pfx + count.__str__() + txt_sfx + ' --> ' + name_of_max + ' ' + max_prcnt.__str__()  + ' --> ' + url)
