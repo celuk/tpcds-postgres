@@ -31,6 +31,7 @@ parser = argparse.ArgumentParser(description='Create Configuration')
 parser.add_argument('-hf', '--hlfunc', type=str, help='Specify function to highlight it', default='')
 parser.add_argument('-ql', '--querylist', type=str, help='Specify query list for special graphs', default='')
 parser.add_argument('-p', '--part', type=str, help='Specify a part (1-10) to make a smaller part of queries graph', default='')
+parser.add_argument('-bt', '--bottomed', action='store_true', help='Make bottomed highlighted function graphs', default=False)
 args = parser.parse_args()
 
 if ''.join(args.querylist.split()) != '':    
@@ -43,7 +44,7 @@ if args.part != '':
         which_part = int(args.part)
 
     if args.querylist == '':
-        query_list = list(range(10*(which_part-1)+1, 10*(which_part-1)+ 11 if which_part != 10 else 10))
+        query_list = list(range(10*(which_part-1)+1, 10*(which_part-1)+ (11 if which_part != 10 else 10)))
 
 if len(query_list) > 0 and len(query_list) < maxnumofqueries+1:
     numofqueries = len(query_list)
@@ -205,6 +206,15 @@ if args.hlfunc in functions:
             colors[i] = h2color #'#808080' #'black'
         else:
             colors[i] = h1color #'blue'
+
+## make bottomed
+if highlight and args.bottomed:
+    ## bir tane degistirecegim icin burada, index karismayacak yoksa temp tutmak lazim
+    ylist.insert(0, ylist.pop(functions.index(args.hlfunc)))
+    colors.insert(0, colors.pop(functions.index(args.hlfunc)))
+    functions.remove(args.hlfunc) ## remove max names from functions
+    functions.insert(0, args.hlfunc) ## insert them as reversed order in the beginning
+
 
 plt.rcParams["font.size"] = "18"
 
