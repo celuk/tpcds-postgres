@@ -36,7 +36,7 @@ txt_sfx = 'a.txt' ## suffix after the query number
 ## If there is less query, then change this too
 numofqueries = 99
 
-plot_title_name = 'The Most Consumer Functions in TPC-DS Queries'
+plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 1GB'
 pdf_name = 'tpcds1gb'
 
 ##### END OF REQUIRED CHANGES #####
@@ -71,7 +71,6 @@ h2color = '#808080' ## other functions color
 
 ## This is for if you add extra functions to functions list and don't specify the color for them, it generates random colors for them.
 import random
-random.seed(1487) ## generate same colors for same number of functions by seeding random
 get_rand_colors = lambda n: list(map(lambda i: "#" + "%06x" % random.randint(0, 0xFFFFFF),range(n)))
 
 ## Either functions removed or added to functions list it arranges the colors list accordingly, and for example, after adding extra functions, it adds extra colors randomly
@@ -186,6 +185,8 @@ if args.hlfunc in functions:
         else:
             colors[i] = h1color #'blue'
 
+plt.rcParams["font.size"] = "18"
+
 ## Plotting stacked bar chart according to list of functions
 bars1 = plt.bar(xlist, ylist[0], color=colors[0])
 cumulative_list = np.array(ylist[0])
@@ -196,19 +197,19 @@ for eachylist in ylist[1:]:
     cumulative_list = cumulative_list + np.array(eachylist)
 
 ## At the top of the chart, this is writing max percentage for each bar, for the most consumer function in each query
-plt.text(-10, 110, 'max %: ', color='black', ha='center', va='center')
+
 count = 0
 for each_bar in bars1:
-    plt.text(each_bar.get_x() + each_bar.get_width() / 2.0, 110, '% ' + maxylist[count].__str__(), color='black', ha='center', va='center', rotation='vertical')
+    plt.text(each_bar.get_x() + each_bar.get_width() / 2.0, 110, '% ' + maxylist[count].__str__(), color='black', ha='center', va='center', rotation='vertical', fontsize=18)
     count = count + 1
 
 ## Plot title and preferences
 if highlight:
-    plt.title(plot_title_name + ' - ' + args.hlfunc.strip())
+    plt.title(plot_title_name + ' - ' + args.hlfunc.strip(), fontsize=30)
 else:
-    plt.title(plot_title_name)
-plt.xlabel('Queries')
-plt.ylabel('Percentage')
+    plt.title(plot_title_name, fontsize=30)
+plt.xlabel('Queries', fontsize=30)
+plt.ylabel('Percentage', fontsize=30)
 plt.xticks(rotation=75)
 plt.grid()
 
@@ -220,9 +221,19 @@ if highlight:
     patch_list.append(mpatches.Patch(label='Other', color=h2color))
 else:
     for each_func in functions:
-        patch_list.append(mpatches.Patch(label=each_func, color=colors[i]))
+        patch_list.append(mpatches.Patch(label=each_func.replace(' ', '\n'), color=colors[i]))
         i += 1
-plt.legend(handles=patch_list, fontsize=8, loc=(1, 0))
+plt.legend(handles=patch_list, fontsize=26, loc=(0.96, 0))
+
+#plt.rc('font', size=20)          # controls default text sizes
+#plt.rc('axes', titlesize=20)     # fontsize of the axes title
+#plt.rc('axes', labelsize=20)    # fontsize of the x and y labels
+#plt.rc('xtick', labelsize=20)    # fontsize of the tick labels
+#plt.rc('ytick', labelsize=20)    # fontsize of the tick labels
+#plt.rc('legend', fontsize=20)    # legend fontsize
+#plt.rc('figure', titlesize=20)  # fontsize of the figure title
+
+#plt.rcParams.update({'font.size': 22})
 
 ## Maximize the plot window
 figure = plt.gcf()
@@ -230,9 +241,9 @@ figure.set_size_inches(32,18)
 
 ## Save the plot to pdf
 if highlight:
-    plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', bbox_inches='tight', dpi=300)
+    plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', dpi=300)
 else:
-    plt.savefig(pdf_name + '.pdf', bbox_inches='tight', dpi=300)
+    plt.savefig(pdf_name + '.pdf', dpi=300)
     
 ## Show the plot
 plt.show()
