@@ -27,23 +27,17 @@
 
 ## Analyzed txts path
 ## Change this path
-atxts_path = '/home/guest/denegenyeni/tmpq010/ajooqtxts/' #'/home/guest/denegenyeni/tmpq0/atxts/' #'/home/guest/bsc/tpcds_10gb/atxts10gb/' #'/home/guest/bsc/tpcds_queries/analyzing_txts/'
+atxts_path = '/home/guest/txts/dell/1gb/atxts1gb/' #'/home/guest/bsc/tpcds_10gb/atxts10gb/' #'/home/guest/bsc/tpcds_queries/analyzing_txts/'
 
 ## Also change these, if you need
 txt_pfx = 'q' ## e.g. q23.txt, prefix of text before the query number
 txt_sfx = 'a.txt' ## suffix after the query number
 
-## Save tables to this path
-tabletxts_path = '/home/guest/tables/'
-
-tabletxt_pfx = 'qatable'
-tabletxt_sfx = '.txt'
-
 ## If there is less query, then change this too
 numofqueries = 99
 
-plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 10GB'
-pdf_name = 'tpcds10gb'
+plot_title_name = 'The Most Consumer Functions in TPC-DS Queries'
+pdf_name = 'tpcds1gb'
 
 ##### END OF REQUIRED CHANGES #####
 
@@ -55,11 +49,6 @@ import matplotlib.patches as mpatches
 import numpy as np
 import argparse
 import pprint
-import os
-
-## Create if the directory does not exist
-if not os.path.exists(tabletxts_path):
-    os.mkdir(tabletxts_path)
 
 ## You can use this command line argument e.g.:
 # python3 allinonce.py --hlfunc="Sort"
@@ -82,6 +71,7 @@ h2color = '#808080' ## other functions color
 
 ## This is for if you add extra functions to functions list and don't specify the color for them, it generates random colors for them.
 import random
+random.seed(1487) ## generate same colors for same number of functions by seeding random
 get_rand_colors = lambda n: list(map(lambda i: "#" + "%06x" % random.randint(0, 0xFFFFFF),range(n)))
 
 ## Either functions removed or added to functions list it arranges the colors list accordingly, and for example, after adding extra functions, it adds extra colors randomly
@@ -104,6 +94,9 @@ ylist = [[0 for x in range(numofqueries)] for y in range(len(functions))]
 maxylist = []
 ## A list to save names of the most consumer functions for each query
 maxnamelist = []
+
+## Even in one exception do not order
+dont_order = False
 
 ## All the uploading analyzed texts to explain.depesz.com, getting the source of each stats page and parsing operations running here
 ## In summary, depesz' stats table is extracting from here
@@ -134,8 +127,6 @@ for count in range(1, numofqueries+1):
         max_prcnt = 0
         name_of_max = ''
     
-        table_txt = open(tabletxts_path + tabletxt_pfx + count.__str__() + tabletxt_sfx, 'w')
-        
         ## Traversing on the table's rows and columns and save them to the lists
         for i in table_rows[1:]:
             table_data = i.find_all('td')
@@ -151,10 +142,6 @@ for count in range(1, numofqueries+1):
                 max_prcnt = each_prcnt
                 name_of_max = data[0]
     
-            table_txt.write(data[0] + '|' + data[1] + '|' + data[2] + '|' + data[3] + '\n')
-            
-        table_txt.close()
-        
         ## Prints depesz url, the most consumer functions and the percentages for each query
         ## Keep in mind that max percentages are not normalized while printing, they are normalizing in the bar chart
         print(txt_pfx + count.__str__() + txt_sfx + ' --> ' + name_of_max + ' ' + max_prcnt.__str__()  + ' --> ' + url)
@@ -169,6 +156,8 @@ for count in range(1, numofqueries+1):
         
         maxnamelist.append('empty')
         maxylist.append(0)
+        
+        dont_order = True
         print()
 
 print()      
@@ -177,6 +166,15 @@ print()
 maxnamedict = {i:maxnamelist.count(i) for i in maxnamelist}
 sorted_maxnamedict = sorted(maxnamedict.items(), key=lambda x:x[1], reverse=True)
 pprint.pprint(sorted_maxnamedict)
+
+## Order lists by max consumer functions
+if not dont_order:
+    temp_functions = functions
+    for each_pair in sorted_maxnamedict[::-1]:
+        ylist.insert(0, ylist.pop(temp_functions.index(each_pair[0])))
+        colors.insert(0, colors.pop(temp_functions.index(each_pair[0])))
+        functions.remove(each_pair[0]) ## remove max names from functions
+        functions.insert(0, each_pair[0]) ## insert them as reversed order in the beginning of list
 
 print()
 
@@ -202,8 +200,6 @@ if args.hlfunc in functions:
         else:
             colors[i] = h1color #'blue'
 
-plt.rcParams["font.size"] = "18"
-
 ## Plotting stacked bar chart according to list of functions
 bars1 = plt.bar(xlist, ylist[0], color=colors[0])
 cumulative_list = np.array(ylist[0])
@@ -214,19 +210,19 @@ for eachylist in ylist[1:]:
     cumulative_list = cumulative_list + np.array(eachylist)
 
 ## At the top of the chart, this is writing max percentage for each bar, for the most consumer function in each query
-
+plt.text(-10, 110, 'max %: ', color='black', ha='center', va='center')
 count = 0
 for each_bar in bars1:
-    plt.text(each_bar.get_x() + each_bar.get_width() / 2.0, 110, '% ' + maxylist[count].__str__(), color='black', ha='center', va='center', rotation='vertical', fontsize=18)
+    plt.text(each_bar.get_x() + each_bar.get_width() / 2.0, 110, '% ' + maxylist[count].__str__(), color='black', ha='center', va='center', rotation='vertical')
     count = count + 1
 
 ## Plot title and preferences
 if highlight:
-    plt.title(plot_title_name + ' - ' + args.hlfunc.strip(), fontsize=30)
+    plt.title(plot_title_name + ' - ' + args.hlfunc.strip())
 else:
-    plt.title(plot_title_name, fontsize=30)
-plt.xlabel('Queries', fontsize=30)
-plt.ylabel('Percentage', fontsize=30)
+    plt.title(plot_title_name)
+plt.xlabel('Queries')
+plt.ylabel('Percentage')
 plt.xticks(rotation=75)
 plt.grid()
 
@@ -238,19 +234,9 @@ if highlight:
     patch_list.append(mpatches.Patch(label='Other', color=h2color))
 else:
     for each_func in functions:
-        patch_list.append(mpatches.Patch(label=each_func.replace(' ', '\n'), color=colors[i]))
+        patch_list.append(mpatches.Patch(label=each_func, color=colors[i]))
         i += 1
-plt.legend(handles=patch_list, fontsize=26, loc=(0.96, 0))
-
-#plt.rc('font', size=20)          # controls default text sizes
-#plt.rc('axes', titlesize=20)     # fontsize of the axes title
-#plt.rc('axes', labelsize=20)    # fontsize of the x and y labels
-#plt.rc('xtick', labelsize=20)    # fontsize of the tick labels
-#plt.rc('ytick', labelsize=20)    # fontsize of the tick labels
-#plt.rc('legend', fontsize=20)    # legend fontsize
-#plt.rc('figure', titlesize=20)  # fontsize of the figure title
-
-#plt.rcParams.update({'font.size': 22})
+plt.legend(handles=patch_list, fontsize=8, loc=(1, 0))
 
 ## Maximize the plot window
 figure = plt.gcf()
@@ -258,9 +244,9 @@ figure.set_size_inches(32,18)
 
 ## Save the plot to pdf
 if highlight:
-    plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', dpi=300)
+    plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', bbox_inches='tight', dpi=300)
 else:
-    plt.savefig(pdf_name + '.pdf', dpi=300)
+    plt.savefig(pdf_name + '.pdf', bbox_inches='tight', dpi=300)
     
 ## Show the plot
 plt.show()
