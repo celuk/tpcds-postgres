@@ -1,2 +1,2 @@
 # tpcds-postgres
-TPC-DS Generation and Execution for Postgres
+TPC-DS Generation, Execution and Analyzer for Postgres
