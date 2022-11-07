@@ -351,6 +351,9 @@ plt.legend(handles=patch_list, fontsize=22, loc=(0.96, 0))
 figure = plt.gcf()
 figure.set_size_inches(32,18)
 
+## Tight the graph
+plt.tight_layout(pad=0)
+
 ## Save the plot to pdf
 if highlight:
     plt.savefig(pdf_name + '_' + ''.join(args.hlfunc.split()) + '.pdf', dpi=300)
