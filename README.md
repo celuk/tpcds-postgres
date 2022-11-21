@@ -36,6 +36,7 @@ _**Fix of query30.sql Syntax Error**_
 
 _`c_last_review_date_sk` should be changed with `c_last_review_date`._
 
+&nbsp;
 
 **Syntax Errors in 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries**
 
@@ -44,6 +45,8 @@ _`c_last_review_date_sk` should be changed with `c_last_review_date`._
 _**Fix of 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries Syntax Errors**_
 
 _Either all `days` keywords should be removed or changed like this `'30 days'::interval`._
+
+&nbsp;
 
 **Syntax Errors in 36, 70, 86 queries**
 
@@ -61,6 +64,8 @@ find the column.
 _**Fix of 36, 70, 86 queries Syntax Errors**_
 
 _Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem._
+
+&nbsp;
 
 I could use automatic converters like [jOOQ](https://www.jooq.org/translate) but this does not resolve the column name errors.
 
