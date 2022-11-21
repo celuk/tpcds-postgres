@@ -26,7 +26,7 @@ TPC-DS Generation, Execution and Analyzer for Postgres
 
 &nbsp;
 
-**3-)** Other errors was because of syntax of 19 (out of 99) queries when running queries in the generated postgres database. This is because of query templates written in [`ANSI SQL`](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-ds_v3.2.0.pdf) format and is not compatible totaly with `PostgreSQL`format. Syntax errors were in `5, 12, 16, 20, 21, 30, 32, 36, 37, 40, 70, 77, 80, 82, 86, 92, 94, 95, 98` queries. Errors and fixes can be seen below:
+**3-)** Other errors was because syntax of 19 (out of 99) queries when running queries in the generated postgres database. This is because of query templates written in [`ANSI SQL`](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-ds_v3.2.0.pdf) format and is not compatible totaly with `PostgreSQL`format. Syntax errors were in `5, 12, 16, 20, 21, 30, 32, 36, 37, 40, 70, 77, 80, 82, 86, 92, 94, 95, 98` queries. Errors and fixes can be seen below:
 
 &nbsp;
 
