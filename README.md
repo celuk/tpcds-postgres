@@ -24,7 +24,7 @@ customers.dat
 
 Other errors was because of syntax of 19 (out of 99 queries) when running queries in the generated postgres database. This is because of query templates written in [`ANSI SQL`](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-ds_v3.2.0.pdf) format and is not compatible totaly with `PostgreSQL`format. Syntax errors were in `5, 12, 16, 20, 21, 30, 32, 36, 37, 40, 70, 77, 80, 82, 86, 92, 94, 95, 98` queries. Errors and fixes can be seen below:
 
-** Syntax Error in query30.sql **
+* Syntax Error in query30.sql *
 
 Column name error:
 
@@ -32,20 +32,20 @@ Column name error:
 c_last_review_date_sk
 ```
 
-_** Fix of query30.sql Syntax Error **_
+_* Fix of query30.sql Syntax Error *_
 
 _`c_last_review_date_sk` should be changed with `c_last_review_date`._
 
 
-** Syntax Errors in 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries **
+* Syntax Errors in 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries *
 
 `days` syntax is not valid for `PostgreSQL`.
 
-_** Fix of 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries Syntax Errors **_
+_* Fix of 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries Syntax Errors *_
 
 _Either all `days` keywords should be removed or changed like this `'30 days'::interval`._
 
-** Syntax Errors in 36, 70, 86 queries **
+* Syntax Errors in 36, 70, 86 queries *
 
 Column name alias error.
 
@@ -58,7 +58,7 @@ original name.  Referencing the original column name instead of the alias causes
 find the column. 
 ```
 
-_** Fix of 36, 70, 86 queries Syntax Errors **_
+_* Fix of 36, 70, 86 queries Syntax Errors *_
 
 _Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem._
 
