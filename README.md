@@ -91,7 +91,21 @@ find the column.
 
 _**Fix of 36, 70, 86 queries Syntax Errors**_
 
-_Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem. So, `select * from (` should be added the head of the queries and `) as sub` should be added before `group by` section. And it makes the piece of code to subquery._
+_Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem. So, `select * from (` should be added the head of the queries and `) as sub` should be added before `order by` section. And it makes the piece of code to subquery like this:_
+
+```sql
+select * from ( -- this is added head of the query
+
+-- ...
+
+-- encapsulated code
+
+-- ...
+
+) as sub -- this is added before order by
+
+order by
+```
 
 In python scripts I did:
 
