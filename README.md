@@ -193,7 +193,19 @@ After generation of the database, all 99 queries will be generated in just one f
 * split_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql`
 * split_analyzing_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql` with at the beginning `explain analyze` keyword that gives analyzed output after running.
 
+Firstly place `query_0.sql` and the python scripts in the same place or run python scripts in directory of `query_0.sql`.
 
+For getting normal SQLs run:
+
+```bash
+python3 split_sqls.py
+```
+
+For getting analyzing SQLs run:
+
+```bash
+python3 split_analyzing_sqls.py
+```
 
 ## Running Queries
 
