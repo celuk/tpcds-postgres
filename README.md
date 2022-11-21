@@ -20,7 +20,7 @@ sudo ./tpcds_generator.sh
 Splitting and Fixing Sqls:
 
 ```bash
-cd your_query0_generated_directory
+cd your_query0_generated_directory ## either go to this directory or place query_0.sql and the scripts in the same directory.
 python3 split_sqls.py
 python3 split_analyzing_sqls.py
 ```
