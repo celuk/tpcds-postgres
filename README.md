@@ -82,6 +82,8 @@ I could use automatic converters like [jOOQ](https://www.jooq.org/translate) but
 
 I could do modifications in `.tpl` files but I didn't want to change original source. I am doing modifications after generation of sql queries while splitting via [split_analyzing_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_analyzing_sqls.py) or [split_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_sqls.py) scripts.
 
+_**Note:**_ Note that SQL queries should be fixed for every database generation because in `TPC-DS` while a database is generating, it is also generating the queries according to the `SCALE` factor (size of database in gigabytes).  
+
 &nbsp;
 
 Errors and fixes can be seen below:
