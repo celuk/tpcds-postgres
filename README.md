@@ -2,10 +2,19 @@
 TPC-DS Generation, Execution and Analyzer for Postgres
 
 ## TL;DR
+
+Making TPC-DS Tools:
 ```bash
 git clone https://github.com/celuk/tpcds-postgres
 cd tpcds-postgres/DSGen-software-code-3.2.0rc1/tools
 make
+```
+
+Database Generation:
+```bash
+cd ../..
+nano pgtpcds_defaults
+sudo ./tpcds_generator.sh
 ```
 
 ## Error Corrections for Generation and Execution of TPC-DS
