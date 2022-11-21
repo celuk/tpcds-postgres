@@ -40,7 +40,7 @@ pip3 install BeautifulSoup4
 pip3 install numpy
 pip3 install pprint
 pip3 install lxml
-
+```
 
 Plotting Stacked Bar Chart Graphs from Analyzed Texts:
 
