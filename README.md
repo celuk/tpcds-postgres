@@ -58,7 +58,7 @@ original name.  Referencing the original column name instead of the alias causes
 find the column. 
 ```
 
-_* Fix of 36, 70, 86 queries Syntax Errors *_
+_**Fix of 36, 70, 86 queries Syntax Errors**_
 
 _Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem._
 
