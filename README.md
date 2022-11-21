@@ -130,6 +130,16 @@ cd tpcds-postgres/DSGen-software-code-3.2.0rc1/tools
 make
 ```
 
+Secondly, change the required variables in `pgtpcds_defaults` file.
+
+Thirdly, run [tpcds_generator.sh](https://github.com/celuk/tpcds-postgres/blob/main/tpcds_generator.sh) with `sudo`:
+
+```bash
+sudo ./tpcds_generator.sh
+```
+
+_**Note:**_ There are a lot of unnecessary `sudo`s in `tpcds_generator.sh` because some servers may need it but you can try to remove them to see if it works in your case. 
+
 ## Generation of Seperate TPC-DS Queries
 After generation of the database, all 99 queries will be generated in just one file which is `query_0.sql`. For seperating the queries we have two python scripts:
 * split_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql`
