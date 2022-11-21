@@ -32,6 +32,16 @@ nano get_analyzed_txts.sh ## change required variables
 sudo ./get_analyzed_txts.sh
 ```
 
+Installing python Dependencies for `graph_analyzed_txts.py`:
+
+```bash
+pip3 install matplotlib
+pip3 install BeautifulSoup4
+pip3 install numpy
+pip3 install pprint
+pip3 install lxml
+
+
 Plotting Stacked Bar Chart Graphs from Analyzed Texts:
 
 ```bash
