@@ -109,6 +109,8 @@ After generation of the database, all 99 queries will be generated in just one f
 * split_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql`
 * split_analyzing_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql` with at the beginning `explain analyze` keyword.
 
+## Running Queries
 
+## Analyzing Queries and Getting Graphs
 
 
