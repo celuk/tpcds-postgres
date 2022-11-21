@@ -13,8 +13,30 @@ make
 Database Generation:
 ```bash
 cd ../..
-nano pgtpcds_defaults
+nano pgtpcds_defaults ## change required variables
 sudo ./tpcds_generator.sh
+```
+
+Splitting and Fixing Sqls:
+
+```bash
+cd your_query0_generated_directory
+python3 split_sqls.py
+python3 split_analyzing_sqls.py
+```
+
+Getting Analyzed Texts:
+
+```bash
+nano get_analyzed_txts.sh ## change required variables
+sudo ./get_analyzed_txts.sh
+```
+
+Plotting Stacked Bar Chart Graphs from Analyzed Texts:
+
+```bash
+nano graph_analyzed_txts.py ## change required variables
+python3 graph_analyzed_txts.py ## after that you will get .png and .pdfs of stacked bar chart
 ```
 
 ## Error Corrections for Generation and Execution of TPC-DS
