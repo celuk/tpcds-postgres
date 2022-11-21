@@ -3,7 +3,7 @@ TPC-DS Generation, Execution and Analyzer for Postgres
 
 ## Error Corrections for Generation and Execution of TPC-DS
 
-TPC-DS v3.2.0 benchmarks (DSGen-software-code-3.2.0rc1) is downloaded from [tpc site](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp) and because it was giving error in the generation, I [added one line](https://github.com/celuk/tpcds-postgres/commit/13aa8d50cc6b6c22b882c3b1aae7dd638ed16d79) in [netezza.tpl](https://github.com/celuk/tpcds-postgres/blob/main/DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl) file (according to this: https://dba.stackexchange.com/questions/36938/how-to-generate-tpc-ds-query-for-sql-server-from-templates/97926#97926):
+TPC-DS v3.2.0 benchmarks (DSGen-software-code-3.2.0rc1) are downloaded from [tpc site](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp) and because it was giving error in the generation, I [added one line](https://github.com/celuk/tpcds-postgres/commit/13aa8d50cc6b6c22b882c3b1aae7dd638ed16d79) in [netezza.tpl](https://github.com/celuk/tpcds-postgres/blob/main/DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl) file (according to this: https://dba.stackexchange.com/questions/36938/how-to-generate-tpc-ds-query-for-sql-server-from-templates/97926#97926):
 
 ```diff
 --- a/DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl
