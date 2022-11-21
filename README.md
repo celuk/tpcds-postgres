@@ -36,7 +36,7 @@ Plotting Stacked Bar Chart Graphs from Analyzed Texts:
 
 ```bash
 nano graph_analyzed_txts.py ## change required variables
-python3 graph_analyzed_txts.py ## after that you will get .png and .pdfs of stacked bar chart
+python3 graph_analyzed_txts.py --depesz ## after that you will get .png and .pdfs of stacked bar chart
 ```
 
 ## Error Corrections for Generation and Execution of TPC-DS
