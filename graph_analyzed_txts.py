@@ -47,7 +47,7 @@ numofqueries = maxnumofqueries
 plot_title_name = 'The Most Consumer Functions in TPC-DS Queries - 1GB'
 pdf_name = 'tpcds1gb'
 
-planexportertool_path = ''
+planexportertool_path = 'plan-exporter-tool/'
 
 ##### END OF REQUIRED CHANGES #####
 
