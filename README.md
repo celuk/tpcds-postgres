@@ -22,7 +22,7 @@ TPC-DS Generation, Execution and Analyzer for Postgres
 
 &nbsp;
 
-**2-)** There was an error in the generator while reading `customer.dat` because of `UTF-8` formatting. So, for fixing this I added encoding fixer python script [fix_encoding.py](https://github.com/celuk/tpcds-postgres/blob/main/fix_encoding.py) and it is automatically running while generating the database via [tpcds_generator.sh](https://github.com/celuk/tpcds-postgres/blob/main/tpcds_generator.sh) bash script and fixes `customer.dat` encoding.
+**2-)** There was an error in the generator while reading `customer.dat` because of `UTF-8` formatting. So, for fixing this, I added encoding fixer python script [fix_encoding.py](https://github.com/celuk/tpcds-postgres/blob/main/fix_encoding.py) and it is automatically running while generating the database via [tpcds_generator.sh](https://github.com/celuk/tpcds-postgres/blob/main/tpcds_generator.sh) bash script and fixes `customer.dat` encoding.
 
 &nbsp;
 
