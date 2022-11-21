@@ -190,8 +190,10 @@ _**Note:**_ There are a lot of unnecessary `sudo`s in `tpcds_generator.sh` becau
 
 ## Generation of Seperate TPC-DS Queries
 After generation of the database, all 99 queries will be generated in just one file which is `query_0.sql`. For seperating the queries we have two python scripts:
+```bash
 * split_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql`
 * split_analyzing_sqls.py --> Splits `query_0.sql` to `query1.sql`, `query2.sql`, ..., `query99.sql` with at the beginning `explain analyze` keyword that gives analyzed output after running.
+```
 
 Firstly place `query_0.sql` and the python scripts in the same place or run python scripts in directory of `query_0.sql`.
 
