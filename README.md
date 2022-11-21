@@ -172,9 +172,7 @@ For generation, firstly clone this repository, go to directory `tpcds-postgres/D
 
 ```bash
 git clone https://github.com/celuk/tpcds-postgres
-
 cd tpcds-postgres/DSGen-software-code-3.2.0rc1/tools
-
 make
 ```
 
