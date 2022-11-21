@@ -26,7 +26,17 @@ TPC-DS Generation, Execution and Analyzer for Postgres
 
 &nbsp;
 
-**3-)** Other errors was because syntax of 19 (out of 99) queries when running queries in the generated postgres database. This is because of query templates written in [`ANSI SQL`](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-ds_v3.2.0.pdf) format and is not compatible totaly with [`PostgreSQL`](https://www.postgresql.org)format. Syntax errors were in `5, 12, 16, 20, 21, 30, 32, 36, 37, 40, 70, 77, 80, 82, 86, 92, 94, 95, 98` queries. Errors and fixes can be seen below:
+**3-)** Other errors was because syntax of 19 (out of 99) queries when running queries in the generated postgres database. This is because of query templates written in [`ANSI SQL`](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-ds_v3.2.0.pdf) format and is not compatible totaly with [`PostgreSQL`](https://www.postgresql.org)format. Syntax errors were in `5, 12, 16, 20, 21, 30, 32, 36, 37, 40, 70, 77, 80, 82, 86, 92, 94, 95, 98` queries.
+
+&nbsp;
+
+I could use automatic converters like [jOOQ](https://www.jooq.org/translate) but this does not resolve the column name errors.
+
+I could do modifications in `.tpl` files but I didn't want to change original source. I am doing modifications after generation of sql queries while splitting via [split_analyzing_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_analyzing_sqls.py) or [split_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_sqls.py) scripts.
+
+&nbsp;
+
+Errors and fixes can be seen below:
 
 &nbsp;
 
@@ -42,6 +52,12 @@ _**Fix of query30.sql Syntax Error**_
 
 _`c_last_review_date_sk` should be changed with `c_last_review_date`._
 
+In python scripts I did:
+
+```python
+each_text = each_text.replace('c_last_review_date_sk', 'c_last_review_date')
+```
+
 &nbsp;
 
 **Syntax Errors in 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries**
@@ -51,6 +67,12 @@ _`c_last_review_date_sk` should be changed with `c_last_review_date`._
 _**Fix of 5, 12, 16, 20, 21, 32, 37, 40, 77, 80, 82, 92, 94, 95, 98 queries Syntax Errors**_
 
 _Either all `days` keywords should be removed or changed like this `'30 days'::interval`._
+
+In python scripts I did:
+
+```python
+each_text = each_text.replace('days', '')
+```
 
 &nbsp;
 
@@ -69,13 +91,14 @@ find the column.
 
 _**Fix of 36, 70, 86 queries Syntax Errors**_
 
-_Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem._
+_Using [subquery](https://stackoverflow.com/questions/69805738/why-do-i-get-an-error-querying-from-column-alias/69805832#69805832) fixes the problem. So, `select * from (` should be added the head of the queries and `) as sub` should be added before `group by` section._
 
-&nbsp;
+In python scripts I did:
 
-I could use automatic converters like [jOOQ](https://www.jooq.org/translate) but this does not resolve the column name errors.
-
-I could do modifications in `.tpl` files but I didn't want to change original source and I am doing modifications after generation of sql queries while splitting via [split_analyzing_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_analyzing_sqls.py) or [split_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_sqls.py).
+```python
+each_text = each_text.replace('select', 'select * from (select ', 1)
+each_text = ') as sub\n order by'.join(each_text.rsplit('order by', 1))
+```
 
 ## Generation of TPC-DS Database
 
