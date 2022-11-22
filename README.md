@@ -296,3 +296,26 @@ Change required variables in the script, then run the script:
 ```bash
 python3 graph_analyzed_txts.py --depesz
 ```
+
+## Bonus: Creating Indexes
+Firstly install [hypopg](https://github.com/HypoPG/hypopg):
+```bash
+export PATH=/home/guest/bsc/postgres-compiled/bin:$PATH
+git clone https://github.com/HypoPG/hypopg
+USE_PGXS=1 make install
+```
+
+Then install [dexter](https://github.com/ankane/dexter):
+
+```bash
+wget -qO- https://dl.packager.io/srv/pghero/dexter/key | sudo apt-key add -
+sudo wget -O /etc/apt/sources.list.d/dexter.list \
+  https://dl.packager.io/srv/pghero/dexter/master/installer/ubuntu/$(. /etc/os-release && echo $VERSION_ID).repo
+sudo apt-get update
+sudo apt-get -y install dexter
+```
+
+Change required variables in [create_indexes.py](create_indexes.py) and then run the script to create indexes in desired database:
+```bash
+python3 create_indexes.py
+```
