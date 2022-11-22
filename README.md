@@ -297,7 +297,7 @@ Change required variables in the script, then run the script:
 python3 graph_analyzed_txts.py --depesz
 ```
 
-## Bonus: Creating Indexes
+## Extra: Creating Indexes
 Firstly install [hypopg](https://github.com/HypoPG/hypopg):
 ```bash
 export PATH=/home/guest/bsc/postgres-compiled/bin:$PATH
