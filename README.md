@@ -284,8 +284,8 @@ pip3 install numpy
 pip3 install pprint
 ```
 
-Then run the python script:
+Change required variables in the script, then run the script:
 
 ```bash
-python3 graph_analyzed_txts.py
+python3 graph_analyzed_txts.py --depesz
 ```
