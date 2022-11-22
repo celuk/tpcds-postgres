@@ -298,7 +298,7 @@ python3 graph_analyzed_txts.py --depesz
 ```
 
 There are several flags here to use while running the script:
-|     flag    | short version | description                                                                                                                                                          | example usage           |
+|     flag    | short version of the flag | description                                                                                                                                                          | example usage           |
 |:-----------:|:-------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
 | --depesz    |      -dz      | Uploads given analyzed texts to https://explain.depesz.com, if it is the first time for your analyzed texts you need to give this flag, otherwise you don't need it. | `-dz`                   |
 | --hlfunc    |      -hl      | Takes one argument as string to highlight desired function in the graph.                                                                                             | `-hf "Sort"`            |
