@@ -211,6 +211,37 @@ python3 split_analyzing_sqls.py
 ```
 
 ## Running Queries
+You need to start the database firstly as:
+
+```bash
+sudo -u <username> pg_ctl -D <database-name> start
+```
+
+An example to start database:
+
+```bash
+sudo -u guest /home/guest/postgres/postgres-compiled/bin/pg_ctl -D /home/guest/bsc/databases/pgdata1GB start
+```
+
+If you cannot start because of an old process, please look at this answer to solve the problem and try to start database again: https://stackoverflow.com/questions/52963079/i-cant-start-server-postgresql-11-pg-ctl-could-not-start-server/73868082#73868082
+
+For running a query, you can use this command:
+
+```bash
+sudo -u <username> psql -d <database-name> -f <query-name>
+```
+
+or this command:
+
+```bash
+sudo -u <username> psql <database-name> < <query-name>
+```
+
+An example to run a query:
+
+```bash
+sudo -u guest /home/guest/postgres/postgres-compiled/bin/psql tpcds1gb < query1.sql
+```
 
 ## Analyzing Queries and Getting Graphs
 
