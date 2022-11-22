@@ -32,7 +32,7 @@ nano get_analyzed_txts.sh ## change required variables
 sudo ./get_analyzed_txts.sh
 ```
 
-Installing python Dependencies for `graph_analyzed_txts.py`:
+Installing python dependencies for `graph_analyzed_txts.py`:
 
 ```bash
 pip3 install matplotlib
