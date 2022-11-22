@@ -251,7 +251,7 @@ sudo ./get_analyzed_txts.sh
 
 After that if you run:
 * normal sqls --> you will get outputs of sql commands in a folder as seperate `.txt` files.
-* analyzing sqls --> you will get analyzed outputs of sql commands in a folder as seperate `.txt` files. `q1a.txt`, `q2a.txt`, ..., `q99a.txt`
+* analyzing sqls --> you will get analyzed outputs of sql commands in a folder as seperate `.txt` files. As `q1a.txt`, `q2a.txt`, ..., `q99a.txt`
 
 
 
