@@ -299,16 +299,16 @@ python3 graph_analyzed_txts.py --depesz
 
 There are several flags here to use while running the script:
 ```bash
-* '-dz', '--depesz' --> Uploads given analyzed texts to [explain.depesz.com](https://explain.depesz.com), 
-if it is the first time for your analyzed texts you need to give this flag, otherwise you don't need it.
+* '-dz', '--depesz' --> Uploads given analyzed texts to [explain.depesz.com](https://explain.depesz.com), if it is the first time 
+for your analyzed texts you need to give this flag, otherwise you don't need it.
 * '-hf', '--hlfunc' --> This takes one argument as string to highlight desired function in the graph, 
 e.g. `-hf "Sort"`
-* '-ql', '--querylist' --> This takes desired query list as numbers with commas as string to plot 
-special graphs, e.g. `-ql "1, 32,3,76 , 55"`
-* '-p', '--part' --> This is like querylist option but make parted graphs ten by ten like first ten 
-part, fourth ten part, e.g. `-p 5`
-* '-bt', '--bottomed' --> If you are highlighting desired function and if it is floating in the 
-graph, this makes the bars bottomed.
+* '-ql', '--querylist' --> This takes desired query list as numbers with commas as string to plot special graphs, 
+e.g. `-ql "1, 32,3,76 , 55"`
+* '-p', '--part' --> This is like querylist option but make parted graphs ten by ten like first ten part, fourth ten part, 
+e.g. `-p 5`
+* '-bt', '--bottomed' --> If you are highlighting desired function and if it is floating in the graph, 
+this makes the bars bottomed.
 ```
 
 ## Extra: Creating Indexes
