@@ -299,8 +299,8 @@ python3 graph_analyzed_txts.py --depesz
 
 There are several flags here to use while running the script:
 ```bash
-* '-dz', '--depesz' --> Uploads given analyzed texts to [explain.depesz.com](https://explain.depesz.com), if it is the first time 
-for your analyzed texts you need to give this flag, otherwise you don't need it.
+* '-dz', '--depesz' --> Uploads given analyzed texts to [explain.depesz.com](https://explain.depesz.com), if it is the 
+first time for your analyzed texts you need to give this flag, otherwise you don't need it.
 * '-hf', '--hlfunc' --> This takes one argument as string to highlight desired function in the graph, 
 e.g. `-hf "Sort"`
 * '-ql', '--querylist' --> This takes desired query list as numbers with commas as string to plot special graphs, 
