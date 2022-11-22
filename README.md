@@ -51,7 +51,7 @@ python3 graph_analyzed_txts.py --depesz ## after that you will get .png and .pdf
 
 ## Error Corrections for Generation and Execution of TPC-DS
 
-**1-)** TPC-DS v3.2.0 benchmarks (DSGen-software-code-3.2.0rc1) are downloaded from [TPC site](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp) and because it was giving error in the generation, I [added one line](https://github.com/celuk/tpcds-postgres/commit/13aa8d50cc6b6c22b882c3b1aae7dd638ed16d79) in [netezza.tpl](https://github.com/celuk/tpcds-postgres/blob/main/DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl) file (according to this: https://dba.stackexchange.com/questions/36938/how-to-generate-tpc-ds-query-for-sql-server-from-templates/97926#97926):
+**1-)** TPC-DS v3.2.0 benchmarks (DSGen-software-code-3.2.0rc1) are downloaded from [TPC site](https://www.tpc.org/tpc_documents_current_versions/current_specifications5.asp) and because it was giving error in the generation, I [added one line](https://github.com/celuk/tpcds-postgres/commit/13aa8d50cc6b6c22b882c3b1aae7dd638ed16d79) in [netezza.tpl](DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl) file (according to this: https://dba.stackexchange.com/questions/36938/how-to-generate-tpc-ds-query-for-sql-server-from-templates/97926#97926):
 
 ```diff
 --- a/DSGen-software-code-3.2.0rc1/query_templates/netezza.tpl
@@ -70,7 +70,7 @@ python3 graph_analyzed_txts.py --depesz ## after that you will get .png and .pdf
 
 &nbsp;
 
-**2-)** There was an error in the generator while reading `customer.dat` because of `UTF-8` formatting. So, for fixing this, I added encoding fixer python script [fix_encoding.py](https://github.com/celuk/tpcds-postgres/blob/main/fix_encoding.py) and it is automatically running while generating the database via [tpcds_generator.sh](https://github.com/celuk/tpcds-postgres/blob/main/tpcds_generator.sh) bash script and fixes `customer.dat` encoding.
+**2-)** There was an error in the generator while reading `customer.dat` because of `UTF-8` formatting. So, for fixing this, I added encoding fixer python script [fix_encoding.py](fix_encoding.py) and it is automatically running while generating the database via [tpcds_generator.sh](tpcds_generator.sh) bash script and fixes `customer.dat` encoding.
 
 &nbsp;
 
@@ -80,7 +80,7 @@ python3 graph_analyzed_txts.py --depesz ## after that you will get .png and .pdf
 
 I could use automatic converters like [jOOQ](https://www.jooq.org/translate) but this does not resolve the column name errors.
 
-I could do modifications in `.tpl` files but I didn't want to change original source. I am doing modifications after generation of sql queries while splitting via [split_analyzing_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_analyzing_sqls.py) or [split_sqls.py](https://github.com/celuk/tpcds-postgres/blob/main/split_sqls.py) scripts.
+I could do modifications in `.tpl` files but I didn't want to change original source. I am doing modifications after generation of sql queries while splitting via [split_analyzing_sqls.py](split_analyzing_sqls.py) or [split_sqls.py](split_sqls.py) scripts.
 
 _**Note:**_ Note that SQL queries should be fixed for every database generation because in `TPC-DS` while a database is generating, it is also generating the queries according to the `SCALE` factor (size of database in gigabytes).  
 
@@ -180,7 +180,7 @@ make
 
 Secondly, change the required variables in `pgtpcds_defaults` file.
 
-Thirdly, run [tpcds_generator.sh](https://github.com/celuk/tpcds-postgres/blob/main/tpcds_generator.sh) with `sudo`:
+Thirdly, run [tpcds_generator.sh](tpcds_generator.sh) with `sudo`:
 
 ```bash
 sudo ./tpcds_generator.sh
