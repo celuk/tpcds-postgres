@@ -243,6 +243,18 @@ An example to run a query:
 sudo -u guest /home/guest/postgres/postgres-compiled/bin/psql tpcds1gb < query1.sql
 ```
 
+For running all queries you can use [get_analyzed_txts.sh](get_analyzed_txts.sh). Firstly edit the required variables in the file, then you can run as:
+
+```bash
+sudo ./get_analyzed_txts.sh
+```
+
+After that if you run:
+* normal sqls --> you will get outputs of sql commands in a folder as seperate `.txt` files.
+* analyzing sqls --> you will get analyzed outputs of sql commands in a folder as seperate `.txt` files. `q1a.txt`, `q2a.txt`, ..., `q99a.txt`
+
+
+
 ## Analyzing Queries and Getting Graphs
 
 
