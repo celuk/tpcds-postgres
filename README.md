@@ -37,9 +37,9 @@ Installing python dependencies for `graph_analyzed_txts.py`:
 ```bash
 pip3 install matplotlib
 pip3 install BeautifulSoup4
+pip3 install lxml
 pip3 install numpy
 pip3 install pprint
-pip3 install lxml
 ```
 
 Plotting Stacked Bar Chart Graphs from Analyzed Texts:
@@ -271,6 +271,21 @@ s=20 loops=1)
 ```
 
 
-## Analyzing Queries and Getting Graphs
+## Getting Graphs from Analyzed Texts
+To get stacked bar chart graphs from analyzed txts, you can use [graph_analyzed_txts.py](graph_analyzed_txts.py)
 
+Firstly install python dependencies:
 
+```bash
+pip3 install matplotlib
+pip3 install BeautifulSoup4
+pip3 install lxml
+pip3 install numpy
+pip3 install pprint
+```
+
+Then run the python script:
+
+```bash
+python3 graph_analyzed_txts.py
+```
