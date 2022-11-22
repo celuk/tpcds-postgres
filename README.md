@@ -253,6 +253,22 @@ After that if you run:
 * normal sqls --> you will get outputs of sql commands in a folder as seperate `.txt` files.
 * analyzing sqls --> you will get analyzed outputs of sql commands in a folder as seperate `.txt` files. As `q1a.txt`, `q2a.txt`, ..., `q99a.txt`
 
+An example output of analyzing sql is like this:
+
+```bash
+                                                  QUERY PLAN                    
+                              
+--------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=1.25..1.45 rows=20 width=12) (actual time=0.134..0.263 row
+s=20 loops=1)
+   Group Key: ib_income_band_sk
+   Batches: 1  Memory Usage: 24kB
+   ->  Seq Scan on income_band  (cost=0.00..1.20 rows=20 width=12) (actual time=
+0.027..0.032 rows=20 loops=1)
+ Planning Time: 1.741 ms
+ Execution Time: 0.518 ms
+(6 rows)
+```
 
 
 ## Analyzing Queries and Getting Graphs
