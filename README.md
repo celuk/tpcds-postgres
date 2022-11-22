@@ -297,7 +297,7 @@ Change required variables in the script, then run the script:
 python3 graph_analyzed_txts.py --depesz
 ```
 
-There are several flags here to use while running the script:
+There are several flags here to use while running [graph_analyzed_txts.py](graph_analyzed_txts.py):
 |     flag    | short version of the flag | description                                                                                                                                                          | example usage           |
 |:-----------:|:-------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
 | --depesz    |      -dz      | Uploads given analyzed texts to https://explain.depesz.com, if it is the first time for your analyzed texts you need to give this flag, otherwise you don't need it. | `-dz`                   |
