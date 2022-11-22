@@ -298,18 +298,13 @@ python3 graph_analyzed_txts.py --depesz
 ```
 
 There are several flags here to use while running the script:
-```bash
-* '-dz', '--depesz' --> Uploads given analyzed texts to https://explain.depesz.com, if it is the first time 
-for your analyzed texts you need to give this flag, otherwise you don't need it.
-* '-hf', '--hlfunc' --> This takes one argument as string to highlight desired function in the graph, 
-e.g. `-hf "Sort"`
-* '-ql', '--querylist' --> This takes desired query list as numbers with commas as string to plot special graphs, 
-e.g. `-ql "1, 32,3,76 , 55"`
-* '-p', '--part' --> This is like querylist option but make parted graphs ten by ten like first ten part, fourth ten part, 
-e.g. `-p 5`
-* '-bt', '--bottomed' --> If you are highlighting desired function and if it is floating in the graph, 
-this makes the bars bottomed.
-```
+|     flag    | short version | description                                                                                                                                                          | example usage           |
+|:-----------:|:-------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
+| --depesz    |      -dz      | Uploads given analyzed texts to https://explain.depesz.com, if it is the first time for your analyzed texts you need to give this flag, otherwise you don't need it. | `-dz`                   |
+| --hlfunc    |      -hl      | Takes one argument as string to highlight desired function in the graph.                                                                                             | `-hf "Sort"`            |
+| --querylist |      -ql      | Takes desired query list as numbers with commas as string to plot special graphs.                                                                                    | `-ql "1, 32,3,76 , 55"` |
+| --part      |       -p      | Like `querylist` option but it makes parted graphs ten by ten like first ten part, fourth ten part.                                                                  | `-p 5`                  |
+| --bottomed  |      -bt      | If you are highlighting desired function and if it is floating in the graph, it makes the bars bottomed.                                                             | `-bt`                   |
 
 ## Extra: Creating Indexes
 Firstly install [hypopg](https://github.com/HypoPG/hypopg):
