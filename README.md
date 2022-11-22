@@ -276,7 +276,7 @@ After running the desired queries don't forget to stop the database:
 
 ```bash
 sudo -u <username> pg_ctl -D <database-name> stop
-
+```
 
 ## Getting Graphs from Analyzed Texts
 To get stacked bar chart graphs from analyzed txts, you can use [graph_analyzed_txts.py](graph_analyzed_txts.py)
