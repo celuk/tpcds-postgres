@@ -279,7 +279,7 @@ sudo -u <username> pg_ctl -D <database-name> stop
 ```
 
 ## Getting Graphs from Analyzed Texts
-To get stacked bar chart graphs from analyzed txts, you can use [graph_analyzed_txts.py](graph_analyzed_txts.py)
+To get stacked bar chart graphs from analyzed txts, you can use [graph_analyzed_txts.py](graph_analyzed_txts.py). It uploads analyzed txts to https://explain.depesz.com from given path, gets the source of uploaded url, parses it and extracts table from there, -if `--depesz` flag given before, they already stored in a folder, so, by not giving depesz option we can bypass all of these operations to not wait- creates customizable graphs according to given flags.
 
 Firstly install python dependencies:
 
