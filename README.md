@@ -296,6 +296,9 @@ Change required variables in the script, then run the script:
 ```bash
 python3 graph_analyzed_txts.py --depesz
 ```
+This will give an output graph like this:
+[tpcds1gb.png](tpcds1gb.png)
+
 
 There are several flags here to use while running [graph_analyzed_txts.py](graph_analyzed_txts.py):
 |     flag    | short version of the flag | description                                                                                                                                                          | example usage           |
@@ -305,6 +308,38 @@ There are several flags here to use while running [graph_analyzed_txts.py](graph
 | --querylist |      -ql      | Takes desired query list as numbers with commas as string to plot special graphs.                                                                                    | `-ql "1, 32,3,76 , 55"` |
 | --part      |       -p      | Like `querylist` option but it makes parted graphs ten by ten like first ten part, fourth ten part.                                                                  | `-p 5`                  |
 | --bottomed  |      -bt      | If you are highlighting desired function and if it is floating in the graph, it makes the bars bottomed.                                                             | `-bt`                   |
+### Examples Cases for graph_analyzed_txts.py
+
+```bash
+python3 graph_analyzed_txts.py -hf "Index Scan"
+```
+[tpcds1gb_IndexScan.png](tpcds1gb_IndexScan.png)
+&nbsp;
+
+```bash
+python3 graph_analyzed_txts.py -hf "Index Scan" -bt
+```
+[tpcds1gb_IndexScan_bottomed.png](tpcds1gb_IndexScan_bottomed.png)
+&nbsp;
+
+
+```bash
+python3 graph_analyzed_txts.py -hf "Index Scan" -bt
+```
+[tpcds1gb_IndexScan_bottomed.png](tpcds1gb_IndexScan_bottomed.png)
+&nbsp;
+
+```bash
+python3 graph_analyzed_txts.py -hf "Index Scan" --querylist "1, 32,3,76 , 55"
+```
+[tpcds1gb_IndexScan_querylist.png](tpcds1gb_IndexScan_querylist.png)
+&nbsp;
+
+```bash
+python3 graph_analyzed_txts.py -p 7
+```
+[tpcds1gb_part7.png](tpcds1gb_part7.png)
+&nbsp;
 
 ## Extra: Creating Indexes
 Firstly install [hypopg](https://github.com/HypoPG/hypopg):
