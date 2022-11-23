@@ -297,7 +297,7 @@ Change required variables in the script, then run the script:
 python3 graph_analyzed_txts.py --depesz
 ```
 This will give an output graph like this:
-![tpcds1gb.png](tpcds1gb.png)
+![tpcds1gb.png](imgs/tpcds1gb.png)
 
 
 There are several flags here to use while running [graph_analyzed_txts.py](graph_analyzed_txts.py):
@@ -314,28 +314,28 @@ This highlights `Index Scan` function in the graph:
 ```bash
 python3 graph_analyzed_txts.py -hf "Index Scan"
 ```
-![tpcds1gb_IndexScan.png](tpcds1gb_IndexScan.png)
+![tpcds1gb_IndexScan.png](imgs/tpcds1gb_IndexScan.png)
 &nbsp;
 
 This makes it bottomed:
 ```bash
 python3 graph_analyzed_txts.py -dz -hf "Index Scan" -bt
 ```
-![tpcds1gb_IndexScan_bottomed.png](tpcds1gb_IndexScan_bottomed.png)
+![tpcds1gb_IndexScan_bottomed.png](imgs/tpcds1gb_IndexScan_bottomed.png)
 &nbsp;
 
 This is giving a special graph according to given query list and highlights `Index Scan` function at the same time:
 ```bash
 python3 graph_analyzed_txts.py -hf "Index Scan" --querylist "1, 32,3,76 , 55"
 ```
-![tpcds1gb_IndexScan_querylist.png](tpcds1gb_IndexScan_querylist.png)
+![tpcds1gb_IndexScan_querylist.png](imgs/tpcds1gb_IndexScan_querylist.png)
 &nbsp;
 
 This is giving the seventh part of the main graph:
 ```bash
 python3 graph_analyzed_txts.py -p 7
 ```
-![tpcds1gb_part7.png](tpcds1gb_part7.png)
+![tpcds1gb_part7.png](imgs/tpcds1gb_part7.png)
 &nbsp;
 
 ## Extra: Creating Indexes
