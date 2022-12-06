@@ -1,5 +1,7 @@
 #!/bin/sh
 
+## Author: Seyyid Hikmet Celik
+
 PGBINDIR=/home/guest/bsc/postgres-compiled/bin
 DBNAME=tpcds1gb
 QLOC=/home/guest/denegenyeni/tmpq0/acqueries

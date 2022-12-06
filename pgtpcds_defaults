@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## Author: Seyyid Hikmet Celik
+
 ########## REQUIRED CHANGES ##########
 SCALE=1 #GB
 PGUSER="guest"

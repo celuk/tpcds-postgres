@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## Author: Seyyid Hikmet Celik
+
 ## TCP-DS Database Generation Script for Postgres
 
 ## Before running this script you should do

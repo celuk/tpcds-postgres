@@ -1,3 +1,5 @@
+## Author: Seyyid Hikmet Celik
+
 ## This script traverse on the analyzed texts of queries and makes stacked bar chart from them.
 
 ## Below commands are executing on the texts and then it extracts info from them

@@ -1,3 +1,5 @@
+## Author: Seyyid Hikmet Celik
+
 import os
 
 filetosave = "/cqueries"

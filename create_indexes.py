@@ -1,3 +1,5 @@
+## Author: Seyyid Hikmet Celik
+
 import subprocess
 
 queries_path = '/home/guest/denegenyeni/tmpq0/cqueries'
